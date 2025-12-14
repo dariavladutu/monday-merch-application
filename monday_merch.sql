@@ -16,7 +16,6 @@ CREATE TABLE products (
     price_per_unit DECIMAL(10,2) NOT NULL,
     stock_quantity INTEGER DEFAULT 0,
     sku VARCHAR(100) UNIQUE,
-    image_url VARCHAR(500),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (category_id) REFERENCES categories(id)
 );
@@ -58,7 +57,6 @@ CREATE TABLE orders (
     shipping_address_line1 VARCHAR(255),
     shipping_address_line2 VARCHAR(255),
     shipping_city VARCHAR(100),
-    shipping_state VARCHAR(100),
     shipping_postal_code VARCHAR(20),
     shipping_country VARCHAR(100),
     

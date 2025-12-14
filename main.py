@@ -42,7 +42,6 @@ class Product(BaseModel):
     price_per_unit: float
     stock_quantity: int
     sku: Optional[str] = None
-    image_url: Optional[str] = None
     created_at: str
     
     class Config:
@@ -55,7 +54,6 @@ class Product(BaseModel):
                 "price_per_unit": 0.43,
                 "stock_quantity": 100,
                 "sku": "MM-STKR-001",
-                "image_url": None,
                 "created_at": "2024-12-13 10:00:00"
             }
         }
@@ -144,7 +142,6 @@ def get_products(
                 price_per_unit=float(row["price_per_unit"]),
                 stock_quantity=row["stock_quantity"],
                 sku=row["sku"],
-                image_url=row["image_url"],
                 created_at=row["created_at"]
             )
             for row in rows
@@ -187,7 +184,6 @@ def get_product(product_id: int):
             price_per_unit=float(row["price_per_unit"]),
             stock_quantity=row["stock_quantity"],
             sku=row["sku"],
-            image_url=row["image_url"],
             created_at=row["created_at"]
         )
 
