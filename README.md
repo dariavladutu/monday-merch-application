@@ -4,15 +4,38 @@ RESTful API for Monday Merch ecommerce platform built with FastAPI.
 
 ## Features
 
-- ✅ **GET /products** endpoint with filtering and pagination
-- ✅ Search products by name or description
-- ✅ Filter products by category
-- ✅ Pagination support
-- ✅ SQLite database backend
-- ✅ Full API documentation (Swagger/OpenAPI)
+- **GET /products** endpoint with filtering and pagination
+- Search products by name or description
+- Filter products by category
+- Pagination support
+- SQLite database backend
+- Full API documentation (Swagger/OpenAPI)
+
+## Tech Stack
+- **Framework**: FastAPI 0.104.1
+- **Database**: SQLite3
+- **Validation**: Pydantic 2.5.0
+- **Server**: Uvicorn 0.24.0
+- **Language**: Python 3.11+
 
 ## Setup Instructions
 
+###
+ Prerequisites
+- Python 3.11 or higher
+- pip (Python package manager)
+- clone repository (or download files)
+  ```bash
+  git clone https://github.com/dariavladutu/monday-merch-application.git
+  cd monday-merch-application
+   ```
+
+Recommended (but not required)
+- cretae a virtual environment (best practice for keeping everything neat and organised):
+   ```bash
+   python3 -m venv venv
+   source venv\Scripts\activate
+   ```
 ### 1. Install Dependencies
 
 ```bash
@@ -173,15 +196,15 @@ Once the server is running, visit:
 
 RELATIONSHIPS:
 
-1. categories → products (one-to-many)
+1. categories -> products (one-to-many)
    - One category can have many products
    - Each product belongs to one category
 
-2. users → orders (one-to-many)
+2. users -> orders (one-to-many)
    - One user can place many orders
    - Each order belongs to one user
 
-3. orders ↔ products (many-to-many via order_items)
+3. orders <-> products (many-to-many via order_items)
    - One order can contain many products
    - One product can appear in many orders
    - Junction table: order_items
@@ -233,45 +256,49 @@ RELATIONSHIPS:
 }
 ```
 
-## For Production System
+## Future Improvements
 
-To make this production-ready, you'd add:
+### High Priority (Production Requirements)
 
-### Security
-- ✅ API key authentication
-- ✅ Rate limiting
-- ✅ HTTPS/TLS encryption
-- ✅ Input validation and sanitization
-- ✅ SQL injection prevention (using parameterized queries ✅)
+1.**Authentication & Authorization**
+- Authentication
+- Role-based access control (admin, customer)
+- Password hashing 
 
-### Features
-- ✅ Full CRUD operations (POST, PUT, DELETE)
-- ✅ Order management endpoints
-- ✅ User authentication/authorization
-- ✅ Image upload handling
-- ✅ Payment processing integration
-- ✅ Email notifications
-- ✅ Inventory management
+2.**Input Validation**
+- String length limits on search queries
+- Email format validation
+- Price range validation
 
-### Performance
-- ✅ Database connection pooling
-- ✅ Caching (Redis)
-- ✅ Full-text search indexing
-- ✅ Query optimization
-- ✅ Load balancing
+3.**Comprehensive Error Handling**
+- Structured logging (logging module)
+- Error tracking (Sentry)
+- Request ID tracking
+- User-friendly error messages
 
-### Monitoring
-- ✅ Logging (structured logging)
-- ✅ Error tracking (Sentry)
-- ✅ Performance monitoring (APM)
-- ✅ Health checks
-- ✅ Metrics (Prometheus)
+4.**Testing**
+- Unit tests with pytest
+- Integration tests
+- API endpoint tests
 
-### Testing
-- ✅ Unit tests
-- ✅ Integration tests
-- ✅ Load testing
-- ✅ API contract testing
+5.**Database Migration**
+- PostgreSQL for production
+- Connection pooling
+- Database indexes on frequently queried fields
+
+### Medium Priority
+
+6.**Docker Containerization**
+
+7.**CI/CD Pipeline**
+- GitHub Actions
+- Automated testing
+- Code quality checks (black, flake8)
+- Automated deployment
+
+### Long-term Improvements
+
+10.**Monitoring & Observability**
 
 ## Project Structure
 
@@ -284,17 +311,30 @@ monday_merch_api/
 └── monday_merch.db     # SQLite database (created by init_db.py)
 ```
 
-## Assignment Completion
-
-This implementation fulfills the B2 requirements:
-
-✅ **GET /products endpoint** - Implemented with full functionality
-✅ **Returns product list** - From SQLite database schema
-✅ **Query parameters** - search, category, page, page_size
-✅ **Real database** - SQLite with proper schema
-✅ **Clear schema** - All 5 required tables with relationships
-✅ **Documentation** - This README + Swagger docs
-
 ## License
 
 Created for graduation project - Monday Merch API
+
+## Troubleshooting
+
+### Issue: `ModuleNotFoundError: No module named 'fastapi'`
+**Solution**: Install dependencies with `pip install -r requirements.txt`
+
+### Issue: `Database is locked`
+**Solution**: Close any SQLite browser connections and restart the server
+
+### Issue: `Address already in use`
+**Solution**: Kill the process on port 8000 or use a different port:
+```bash
+# Find and kill process on port 8000
+lsof -ti:8000 | xargs kill -9
+
+# Or use different port
+uvicorn main:app --port 8080
+```
+
+### Issue: `Database not found`
+**Solution**: Run `python init_db.py` to create the database
+
+### Issue: `Port 8000 shows "Connection refused"`
+**Solution**: Make sure the server is running with `uvicorn main:app --reload`
